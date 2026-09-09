@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Power System Fault Analyzer</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <header>
+
+        <div>
+            <h1>⚡ Power System Fault Analyzer</h1>
+
+            <p>
+                Short Circuit Analysis & Protection
+            </p>
+        </div>
+
+        <div class="status">
+            ● SYSTEM READY
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <!-- Fault Selection -->
+
+        <section class="fault-selection">
+
+            <h2>Fault Type</h2>
+
+            <div class="fault-buttons">
+
+                <button
+                    class="fault-btn active"
+                    data-fault="three_phase">
+
+                    ⚡
+                    <span>3-Phase</span>
+
+                </button>
+
+
+                <button
+                    class="fault-btn"
+                    data-fault="line_ground">
+
+                    🔌
+                    <span>Line-Ground</span>
+
+                </button>
+
+
+                <button
+                    class="fault-btn"
+                    data-fault="line_line">
+
+                    🔄
+                    <span>Line-Line</span>
+
+                </button>
+
+
+                <button
+                    class="fault-btn"
+                    data-fault="double_line_ground">
+
+                    ⚠️
+                    <span>Double Line-Ground</span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Input -->
+
+        <section class="panel">
+
+            <h2>System Parameters</h2>
+
+            <div class="input-grid">
+
+                <div class="input-group">
+
+                    <label>
+                        System Voltage
+                    </label>
+
+                    <div class="input-box">
+
+                        <input
+                            type="number"
+                            id="voltage"
+                            value="11"
+                            step="0.1">
+
+                        <span>kV</span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Base Power
+                    </label>
+
+                    <div class="input-box">
+
+                        <input
+                            type="number"
+                            id="base_mva"
+                            value="10"
+                            step="0.1">
+
+                        <span>MVA</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="impedance-fields">
+
+                <div class="input-grid">
+
+                    <div class="input-group">
+
+                        <label>
+                            Positive Sequence Z₁
+                        </label>
+
+                        <div class="input-box">
+
+                            <input
+                                type="number"
+                                id="z1"
+                                value="0.15"
+                                step="0.01">
+
+                            <span>pu</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="analyze"
+                class="analyze-btn">
+
+                ANALYZE FAULT →
+
+            </button>
+
+        </section>
+
+
+        <!-- Results -->
+
+<!-- Power System Diagram -->
+
+<!-- =================================================
+     PHASE FAULT VISUALIZATION
+================================================== -->
+
+<section class="panel phase-panel">
+
+    <h2>Fault Visualization</h2>
+
+    <div class="phase-status">
+        <span id="phase-status-dot"></span>
+        <span id="phase-status-text">SYSTEM NORMAL</span>
+    </div>
+
+    <div class="phase-diagram">
+
+        <!-- PHASE R -->
+        <div class="phase-row">
+
+            <div class="phase-label r-label">
+                R
+            </div>
+
+            <div class="phase-wire" id="phase-r-wire"></div>
+
+            <div class="phase-fault-point"
+                 id="phase-r-fault">
+                ●
+            </div>
+
+        </div>
+
+
+        <!-- PHASE Y -->
+        <div class="phase-row">
+
+            <div class="phase-label y-label">
+                Y
+            </div>
+
+            <div class="phase-wire" id="phase-y-wire"></div>
+
+            <div class="phase-fault-point"
+                 id="phase-y-fault">
+                ●
+            </div>
+
+        </div>
+
+
+        <!-- PHASE B -->
+        <div class="phase-row">
+
+            <div class="phase-label b-label">
+                B
+            </div>
+
+            <div class="phase-wire" id="phase-b-wire"></div>
+
+            <div class="phase-fault-point"
+                 id="phase-b-fault">
+                ●
+            </div>
+
+        </div>
+
+
+        <!-- EARTH -->
+        <div class="earth-row">
+
+            <div class="earth-symbol">
+                ⏚
+            </div>
+
+            <span>
+                EARTH
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="fault-visual-description">
+
+        <strong id="visual-fault-name">
+            No Fault
+        </strong>
+
+        <p id="visual-fault-description">
+            System is operating normally.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     SEQUENCE NETWORK
+================================================== -->
+
+<section class="panel sequence-panel">
+
+    <h2>Sequence Network</h2>
+
+    <div class="sequence-grid">
+
+        <div class="sequence-card">
+
+            <div class="sequence-icon">
+                Z₀
+            </div>
+
+            <strong>
+                Zero Sequence
+            </strong>
+
+            <span id="sequence-z0">
+                --
+            </span>
+
+        </div>
+
+
+        <div class="sequence-card">
+
+            <div class="sequence-icon">
+                Z₁
+            </div>
+
+            <strong>
+                Positive Sequence
+            </strong>
+
+            <span id="sequence-z1">
+                --
+            </span>
+
+        </div>
+
+
+        <div class="sequence-card">
+
+            <div class="sequence-icon">
+                Z₂
+            </div>
+
+            <strong>
+                Negative Sequence
+            </strong>
+
+            <span id="sequence-z2">
+                --
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+        <section class="results">
+
+            <h2>Analysis Result</h2>
+
+            <div class="result-grid">
+
+                <div class="result-card">
+
+                    <span>Base Current</span>
+
+                    <strong id="base-current">
+                        --
+                    </strong>
+
+                    <small>kA</small>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <span>Fault Current</span>
+
+                    <strong id="fault-current">
+                        --
+                    </strong>
+
+                    <small>kA</small>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <span>Fault MVA</span>
+
+                    <strong id="fault-mva">
+                        --
+                    </strong>
+
+                    <small>MVA</small>
+
+                </div>
+
+
+                <div class="result-card severity">
+
+                    <span>Severity</span>
+
+                    <strong id="severity">
+                        --
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+<!-- =================================================
+     FAULT CURRENT GAUGE
+================================================== -->
+
+<section class="panel gauge-panel">
+
+    <h2>Fault Current Monitor</h2>
+
+    <div class="gauge-container">
+
+        <div class="gauge">
+
+            <div class="gauge-scale">
+
+                <span>0</span>
+                <span>5</span>
+                <span>10</span>
+                <span>15+</span>
+
+            </div>
+
+            <div class="gauge-body">
+
+                <div
+                    class="gauge-needle"
+                    id="gauge-needle">
+                </div>
+
+                <div class="gauge-center"></div>
+
+            </div>
+
+            <div class="gauge-value">
+
+                <strong id="gauge-current">
+                    --
+                </strong>
+
+                <span>kA</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="gauge-info">
+
+            <div class="gauge-status">
+
+                <span>
+                    Fault Level
+                </span>
+
+                <strong id="gauge-status">
+                    WAITING
+                </strong>
+
+            </div>
+
+
+            <div class="gauge-bar">
+
+                <div
+                    id="gauge-progress"
+                    class="gauge-progress">
+                </div>
+
+            </div>
+
+
+            <p>
+                Fault current indicates the
+                approximate short-circuit current
+                at the selected fault location.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     PROTECTION RECOMMENDATION
+================================================== -->
+
+<section class="panel protection-panel">
+
+    <h2>Protection Recommendation</h2>
+
+    <div class="protection-card">
+
+        <div
+            class="protection-icon"
+            id="protection-icon">
+
+            ✓
+
+        </div>
+
+
+        <div class="protection-content">
+
+            <strong
+                id="protection-title">
+
+                Awaiting Analysis
+
+            </strong>
+
+            <p
+                id="protection-message">
+
+                Run fault analysis to generate
+                a protection recommendation.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     CIRCUIT BREAKER STATUS
+================================================== -->
+
+<section class="panel breaker-panel">
+
+    <h2>Protection Equipment Status</h2>
+
+    <div class="breaker-grid">
+
+
+        <!-- RELAY -->
+
+        <div class="equipment-card">
+
+            <div
+                class="equipment-indicator"
+                id="relay-indicator">
+
+                R
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Protection Relay
+                </strong>
+
+                <span id="relay-status">
+                    MONITORING
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- BREAKER -->
+
+        <div class="equipment-card">
+
+            <div
+                class="equipment-indicator breaker"
+                id="breaker-indicator">
+
+                CB
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Circuit Breaker
+                </strong>
+
+                <span id="breaker-status">
+                    CLOSED
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- TRIP -->
+
+        <div class="equipment-card">
+
+            <div
+                class="equipment-indicator trip"
+                id="trip-indicator">
+
+                ⚡
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Trip Command
+                </strong>
+
+                <span id="trip-status">
+                    STANDBY
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     CALCULATION DETAILS
+================================================== -->
+
+<section class="panel calculation-panel">
+
+    <h2>Calculation Details</h2>
+
+    <div class="calculation-table">
+
+        <div class="calculation-row">
+            <span>System Voltage</span>
+            <strong id="calc-voltage">--</strong>
+        </div>
+
+        <div class="calculation-row">
+            <span>Base Power</span>
+            <strong id="calc-base-mva">--</strong>
+        </div>
+
+        <div class="calculation-row">
+            <span>Base Current</span>
+            <strong id="calc-base-current">--</strong>
+        </div>
+
+        <div class="calculation-row">
+            <span>Fault Current</span>
+            <strong id="calc-fault-current">--</strong>
+        </div>
+
+        <div class="calculation-row">
+            <span>Fault Level</span>
+            <strong id="calc-fault-mva">--</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+    <footer>
+
+        Power System Fault Analyzer
+        • Educational Engineering Tool
+
+    </footer>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>

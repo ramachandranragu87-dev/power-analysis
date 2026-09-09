@@ -1,0 +1,2208 @@
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #0b1120;
+
+    color: #e5e7eb;
+
+    min-height: 100vh;
+
+}
+
+
+.app {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 30px;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 25px;
+
+    margin-bottom: 25px;
+
+    background: #111827;
+
+    border: 1px solid #243044;
+
+    border-radius: 18px;
+
+}
+
+
+header h1 {
+
+    font-size: 28px;
+
+    margin-bottom: 8px;
+
+}
+
+
+header p {
+
+    color: #94a3b8;
+
+}
+
+
+.status {
+
+    color: #22c55e;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+section {
+
+    margin-bottom: 25px;
+
+}
+
+
+.panel,
+.fault-selection,
+.results {
+
+    background: #111827;
+
+    border: 1px solid #243044;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+}
+
+
+h2 {
+
+    margin-bottom: 20px;
+
+}
+
+
+h3 {
+
+    color: #e5e7eb;
+
+}
+
+
+/* =========================================================
+   FAULT BUTTONS
+========================================================= */
+
+.fault-buttons {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.fault-btn {
+
+    padding: 20px;
+
+    background: #182235;
+
+    border: 1px solid #334155;
+
+    border-radius: 12px;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition:
+        0.2s ease;
+
+}
+
+
+.fault-btn span {
+
+    display: block;
+
+    margin-top: 8px;
+
+}
+
+
+.fault-btn:hover,
+.fault-btn.active {
+
+    border-color: #38bdf8;
+
+    background: #172b42;
+
+    transform: translateY(-2px);
+
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.input-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.input-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #94a3b8;
+
+}
+
+
+.input-box {
+
+    display: flex;
+
+    background: #0b1120;
+
+    border: 1px solid #334155;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+
+.input-box input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    background: transparent;
+
+    border: none;
+
+    outline: none;
+
+    color: white;
+
+    font-size: 16px;
+
+}
+
+
+.input-box span {
+
+    padding: 14px;
+
+    color: #64748b;
+
+}
+
+
+/* =========================================================
+   ANALYZE BUTTON
+========================================================= */
+
+.analyze-btn {
+
+    width: 100%;
+
+    padding: 16px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        0.2s ease;
+
+}
+
+
+.analyze-btn:hover {
+
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =========================================================
+   SINGLE LINE DIAGRAM
+========================================================= */
+
+.diagram-panel {
+
+    overflow-x: auto;
+
+}
+
+
+.diagram-status {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-bottom: 10px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+}
+
+
+#diagram-status-dot {
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 10px #22c55e;
+
+}
+
+
+#diagram-status-text {
+
+    color: #22c55e;
+
+}
+
+
+.diagram {
+
+    min-width: 700px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 35px 10px;
+
+    transition: 0.3s ease;
+
+}
+
+
+.diagram-item,
+.fault-point {
+
+    min-width: 100px;
+
+    text-align: center;
+
+}
+
+
+.symbol,
+.fault-symbol {
+
+    width: 60px;
+
+    height: 60px;
+
+    margin: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 2px solid #38bdf8;
+
+    border-radius: 12px;
+
+    background: #0b1120;
+
+    font-size: 25px;
+
+    transition: 0.3s ease;
+
+}
+
+
+.fault-symbol {
+
+    border-color: #22c55e;
+
+    color: #22c55e;
+
+}
+
+
+.diagram-item span,
+.fault-point span {
+
+    display: block;
+
+    margin-top: 10px;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+
+}
+
+
+.line {
+
+    width: 80px;
+
+    height: 3px;
+
+    background: #22c55e;
+
+    transition: 0.3s ease;
+
+}
+
+
+/* NORMAL */
+
+.diagram.normal .normal-line {
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 5px
+        rgba(34, 197, 94, 0.5);
+
+}
+
+
+.diagram.normal .fault-symbol {
+
+    border-color: #22c55e;
+
+    color: #22c55e;
+
+}
+
+
+/* FAULT */
+
+.diagram.fault .normal-line {
+
+    background: #ef4444;
+
+    box-shadow:
+        0 0 8px
+        rgba(239, 68, 68, 0.7);
+
+}
+
+
+.diagram.fault .fault-symbol {
+
+    border-color: #ef4444;
+
+    color: white;
+
+    background: #7f1d1d;
+
+    box-shadow:
+        0 0 10px
+        rgba(239, 68, 68, 0.8);
+
+    animation:
+        faultBlink 0.8s infinite;
+
+}
+
+
+.diagram.fault .fault-point {
+
+    transform: scale(1.08);
+
+}
+
+
+@keyframes faultBlink {
+
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.result-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.result-card {
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    padding: 22px;
+
+    border-radius: 12px;
+
+}
+
+
+.result-card span {
+
+    display: block;
+
+    color: #94a3b8;
+
+    margin-bottom: 12px;
+
+}
+
+
+.result-card strong {
+
+    font-size: 28px;
+
+}
+
+
+.result-card small {
+
+    color: #64748b;
+
+}
+
+
+#severity {
+
+    color: #f59e0b;
+
+}
+
+
+.fault-result strong {
+
+    color: #ef4444;
+
+}
+
+
+/* =========================================================
+   FAULT ASSESSMENT
+========================================================= */
+
+.assessment-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+
+}
+
+
+.gauge-card,
+.protection-card {
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+}
+
+
+.gauge-card h3,
+.protection-card h3 {
+
+    margin-bottom: 25px;
+
+}
+
+
+/* =========================================================
+   GAUGE
+========================================================= */
+
+.gauge {
+
+    width: 220px;
+
+    height: 110px;
+
+    margin: 20px auto;
+
+    border-radius:
+        220px 220px 0 0;
+
+    background:
+        conic-gradient(
+            from 270deg,
+            #22c55e 0deg 60deg,
+            #eab308 60deg 120deg,
+            #f97316 120deg 160deg,
+            #ef4444 160deg 180deg,
+            transparent 180deg
+        );
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+.gauge::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 170px;
+
+    height: 85px;
+
+    background: #0b1120;
+
+    left: 25px;
+
+    bottom: 0;
+
+    border-radius:
+        170px 170px 0 0;
+
+}
+
+
+.gauge-value {
+
+    position: absolute;
+
+    z-index: 2;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: 15px;
+
+    text-align: center;
+
+}
+
+
+.gauge-value strong {
+
+    display: block;
+
+    font-size: 30px;
+
+}
+
+
+.gauge-value span {
+
+    color: #64748b;
+
+}
+
+
+.gauge-scale {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 10px;
+
+    color: #64748b;
+
+}
+
+
+/* =========================================================
+   PROTECTION
+========================================================= */
+
+.protection-status {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    background: #111827;
+
+    border: 1px solid #243044;
+
+}
+
+
+#protection-icon {
+
+    width: 45px;
+
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #14532d;
+
+    color: #22c55e;
+
+    font-size: 22px;
+
+    flex-shrink: 0;
+
+}
+
+
+#protection-title {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 17px;
+
+}
+
+
+#protection-message {
+
+    color: #94a3b8;
+
+    line-height: 1.5;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================================
+   CIRCUIT BREAKER
+========================================================= */
+
+.breaker-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.breaker-card,
+.relay-card,
+.trip-card {
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    border-radius: 12px;
+
+    padding: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+.breaker-indicator {
+
+    font-size: 35px;
+
+    color: #22c55e;
+
+}
+
+
+.relay-indicator {
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 50%;
+
+    background: #172554;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #38bdf8;
+
+    font-weight: bold;
+
+}
+
+
+.trip-card {
+
+    display: block;
+
+}
+
+
+.breaker-card span,
+.relay-card span,
+.trip-card span {
+
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.breaker-card strong,
+.relay-card strong,
+.trip-card strong {
+
+    display: block;
+
+}
+
+
+/* TRIPPED */
+
+.breaker-tripped {
+
+    color: #ef4444 !important;
+
+    animation:
+        breakerPulse 0.8s infinite;
+
+}
+
+
+.relay-tripped {
+
+    background: #7f1d1d !important;
+
+    color: #ef4444 !important;
+
+    animation:
+        relayPulse 0.8s infinite;
+
+}
+
+
+.trip-active {
+
+    color: #ef4444 !important;
+
+}
+
+
+@keyframes breakerPulse {
+
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+
+@keyframes relayPulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   FAULT DETAILS
+========================================================= */
+
+.details-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.detail-box {
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+}
+
+
+.detail-box span {
+
+    display: block;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.detail-box strong {
+
+    display: block;
+
+    color: #e5e7eb;
+
+    line-height: 1.5;
+
+}
+
+
+.formula-box {
+
+    grid-column:
+        1 / -1;
+
+}
+
+
+.formula-box code {
+
+    display: block;
+
+    color: #38bdf8;
+
+    font-size: 17px;
+
+    background: #111827;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+}
+
+
+/* =========================================================
+   CALCULATION DETAILS
+========================================================= */
+
+.calculation-box {
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
+
+
+.calculation-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 16px 20px;
+
+    border-bottom:
+        1px solid #1e293b;
+
+}
+
+
+.calculation-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.calculation-row span {
+
+    color: #94a3b8;
+
+}
+
+
+.calculation-row strong {
+
+    color: #38bdf8;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    text-align: center;
+
+    color: #64748b;
+
+    padding: 20px;
+
+}
+
+
+footer span {
+
+    margin: 0 5px;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .fault-buttons {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .result-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .breaker-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .assessment-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .input-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .details-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .formula-box {
+
+        grid-column: auto;
+
+    }
+
+
+    header {
+
+        flex-direction: column;
+
+        gap: 15px;
+
+        align-items: flex-start;
+
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .app {
+
+        padding: 15px;
+
+    }
+
+
+    .fault-buttons,
+    .result-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    header h1 {
+
+        font-size: 22px;
+
+    }
+
+
+    .gauge {
+
+        width: 200px;
+
+        height: 100px;
+
+    }
+
+}
+/* =========================================================
+   PHASE FAULT VISUALIZATION
+========================================================= */
+
+.phase-panel {
+    overflow: hidden;
+}
+
+
+.phase-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+
+#phase-status-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 10px #22c55e;
+}
+
+
+#phase-status-text {
+    color: #22c55e;
+}
+
+
+.phase-diagram {
+    position: relative;
+    max-width: 850px;
+    margin: auto;
+    padding: 25px 20px 60px;
+}
+
+
+.phase-row {
+    display: flex;
+    align-items: center;
+    height: 65px;
+}
+
+
+.phase-label {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-weight: bold;
+    font-size: 18px;
+
+    background: #111827;
+}
+
+
+.r-label {
+    border: 2px solid #ef4444;
+    color: #ef4444;
+}
+
+
+.y-label {
+    border: 2px solid #eab308;
+    color: #eab308;
+}
+
+
+.b-label {
+    border: 2px solid #3b82f6;
+    color: #3b82f6;
+}
+
+
+.phase-wire {
+    flex: 1;
+    height: 4px;
+    margin-left: 20px;
+
+    background: #22c55e;
+
+    border-radius: 5px;
+
+    transition: 0.3s ease;
+}
+
+
+.phase-fault-point {
+    width: 38px;
+    height: 38px;
+
+    margin-left: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #22c55e;
+
+    background: #052e16;
+
+    border: 2px solid #22c55e;
+
+    transition: 0.3s ease;
+}
+
+
+.earth-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 5px;
+}
+
+
+.earth-symbol {
+    font-size: 40px;
+    color: #94a3b8;
+}
+
+
+.earth-row span {
+    color: #64748b;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+
+/* =========================================================
+   ACTIVE FAULT PHASE
+========================================================= */
+
+.phase-diagram.fault-active
+.phase-row.active .phase-wire {
+
+    background: #ef4444;
+
+    box-shadow:
+        0 0 8px
+        rgba(239, 68, 68, 0.8);
+}
+
+
+.phase-diagram.fault-active
+.phase-row.active .phase-fault-point {
+
+    color: white;
+
+    background: #7f1d1d;
+
+    border-color: #ef4444;
+
+    box-shadow:
+        0 0 15px
+        rgba(239, 68, 68, 0.9);
+
+    animation:
+        phaseFaultPulse 0.7s infinite;
+}
+
+
+.phase-row.inactive {
+    opacity: 0.45;
+}
+
+
+@keyframes phaseFaultPulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   GROUND FAULT
+========================================================= */
+
+.phase-diagram.ground-fault
+.earth-symbol {
+
+    color: #ef4444;
+
+    text-shadow:
+        0 0 12px
+        rgba(239, 68, 68, 0.9);
+
+    animation:
+        groundPulse 0.8s infinite;
+}
+
+
+@keyframes groundPulse {
+
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   FAULT DESCRIPTION
+========================================================= */
+
+.fault-visual-description {
+
+    max-width: 850px;
+
+    margin: 10px auto 0;
+
+    padding: 20px;
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+
+#visual-fault-name {
+
+    display: block;
+
+    font-size: 18px;
+
+    color: #38bdf8;
+
+    margin-bottom: 8px;
+
+}
+
+
+#visual-fault-description {
+
+    color: #94a3b8;
+
+    line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   SEQUENCE NETWORK
+========================================================= */
+
+.sequence-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+}
+
+
+.sequence-card {
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    text-align: center;
+
+}
+
+
+.sequence-icon {
+
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 15px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #172554;
+
+    border: 2px solid #38bdf8;
+
+    color: #38bdf8;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+}
+
+
+.sequence-card strong {
+
+    display: block;
+
+    margin-bottom: 10px;
+
+}
+
+
+.sequence-card span {
+
+    color: #94a3b8;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .sequence-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .phase-diagram {
+
+        min-width: 600px;
+
+    }
+
+}
+/* =========================================================
+   FAULT VISUALIZATION FIX
+========================================================= */
+
+.phase-diagram.fault-active
+.phase-row.active
+.phase-wire {
+
+    background: #ef4444;
+
+    box-shadow:
+        0 0 10px rgba(239, 68, 68, 0.8);
+
+}
+
+
+.phase-diagram.fault-active
+.phase-row.active
+.phase-fault-point {
+
+    color: #ffffff;
+
+    background: #7f1d1d;
+
+    border-color: #ef4444;
+
+    box-shadow:
+        0 0 15px rgba(239, 68, 68, 0.9);
+
+    animation:
+        phaseFaultPulse 0.7s infinite;
+
+}
+
+
+.phase-row.inactive {
+
+    opacity: 0.35;
+
+}
+
+
+.phase-diagram.ground-fault
+.earth-symbol {
+
+    color: #ef4444;
+
+    text-shadow:
+        0 0 15px rgba(239, 68, 68, 0.9);
+
+    animation:
+        groundPulse 0.8s infinite;
+
+}
+
+
+@keyframes phaseFaultPulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+@keyframes groundPulse {
+
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+/* =========================================================
+   FAULT CURRENT GAUGE - FIXED
+========================================================= */
+
+.gauge-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 70px;
+    padding: 35px 20px;
+}
+
+
+/* Main gauge */
+
+.gauge {
+    position: relative;
+    width: 300px;
+    height: 210px;
+}
+
+
+/* Gauge semicircle */
+
+.gauge-body {
+    position: absolute;
+
+    left: 20px;
+    top: 10px;
+
+    width: 260px;
+    height: 130px;
+
+    border-radius: 260px 260px 0 0;
+
+    background:
+        conic-gradient(
+            from 270deg,
+
+            #22c55e 0deg 72deg,
+
+            #eab308 72deg 108deg,
+
+            #f97316 108deg 144deg,
+
+            #ef4444 144deg 180deg,
+
+            transparent 180deg 360deg
+        );
+
+    overflow: hidden;
+}
+
+
+/* Inner dark area */
+
+.gauge-body::after {
+    content: "";
+
+    position: absolute;
+
+    left: 25px;
+    top: 25px;
+
+    width: 210px;
+    height: 105px;
+
+    border-radius: 210px 210px 0 0;
+
+    background: #0b1120;
+}
+
+
+/* Needle */
+
+.gauge-needle {
+    position: absolute;
+
+    z-index: 5;
+
+    left: 50%;
+    bottom: 0;
+
+    width: 5px;
+    height: 105px;
+
+    background: #f8fafc;
+
+    border-radius: 5px;
+
+    transform-origin: bottom center;
+
+    transform:
+        translateX(-50%)
+        rotate(-90deg);
+
+    transition:
+        transform 0.8s cubic-bezier(
+            0.34,
+            1.56,
+            0.64,
+            1
+        );
+
+    box-shadow:
+        0 0 8px rgba(255,255,255,0.7);
+}
+
+
+/* Center of needle */
+
+.gauge-center {
+    position: absolute;
+
+    z-index: 10;
+
+    left: calc(50% - 11px);
+    bottom: -11px;
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    background: #ef4444;
+
+    border: 4px solid #0b1120;
+
+    box-shadow:
+        0 0 10px rgba(239,68,68,0.7);
+}
+
+
+/* Scale */
+
+.gauge-scale {
+    position: absolute;
+
+    z-index: 20;
+
+    left: 20px;
+    right: 20px;
+
+    bottom: 28px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+
+/* Value */
+
+.gauge-value {
+    position: absolute;
+
+    z-index: 20;
+
+    left: 0;
+    right: 0;
+
+    bottom: 0;
+
+    text-align: center;
+}
+
+
+.gauge-value strong {
+    display: inline-block;
+
+    font-size: 30px;
+
+    color: #f8fafc;
+}
+
+
+.gauge-value span {
+    color: #64748b;
+
+    margin-left: 5px;
+}
+
+
+/* Right side information */
+
+.gauge-info {
+    width: 100%;
+    max-width: 380px;
+}
+
+
+.gauge-status {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+
+.gauge-status span {
+    color: #94a3b8;
+}
+
+
+#gauge-status {
+    color: #22c55e;
+
+    font-weight: bold;
+}
+
+
+/* Progress bar */
+
+.gauge-bar {
+    width: 100%;
+
+    height: 12px;
+
+    background: #1e293b;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-bottom: 18px;
+}
+
+
+.gauge-progress {
+    width: 0%;
+
+    height: 100%;
+
+    background: #22c55e;
+
+    border-radius: 20px;
+
+    transition:
+        width 0.8s ease,
+        background 0.4s ease;
+}
+
+
+.gauge-info p {
+    color: #64748b;
+
+    line-height: 1.6;
+
+    margin: 0;
+}
+
+
+/* =========================================================
+   GAUGE RESPONSIVE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .gauge-container {
+        flex-direction: column;
+
+        gap: 25px;
+    }
+
+    .gauge-info {
+        max-width: 100%;
+    }
+
+}
+
+
+@media (max-width: 400px) {
+
+    .gauge {
+        transform: scale(0.85);
+
+        margin:
+            -15px
+            0;
+    }
+
+}
+/* =========================================================
+   PROTECTION
+========================================================= */
+
+.protection-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 25px;
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    border-radius: 14px;
+
+}
+
+
+.protection-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #14532d;
+
+    color: #22c55e;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+}
+
+
+.protection-content strong {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 18px;
+
+}
+
+
+.protection-content p {
+
+    color: #94a3b8;
+
+    line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   EQUIPMENT
+========================================================= */
+
+.breaker-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+}
+
+
+.equipment-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    border-radius: 14px;
+
+}
+
+
+.equipment-indicator {
+
+    width: 55px;
+
+    height: 55px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #14532d;
+
+    color: #22c55e;
+
+    font-weight: bold;
+
+}
+
+
+.equipment-indicator.breaker {
+
+    background: #14532d;
+
+}
+
+
+.equipment-indicator.trip {
+
+    background: #172554;
+
+    color: #38bdf8;
+
+}
+
+
+.equipment-card strong {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+}
+
+
+.equipment-card span {
+
+    color: #22c55e;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================================
+   CALCULATION DETAILS
+========================================================= */
+
+.calculation-table {
+
+    background: #0b1120;
+
+    border: 1px solid #243044;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
+
+
+.calculation-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 16px 20px;
+
+    border-bottom:
+        1px solid #1e293b;
+
+}
+
+
+.calculation-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.calculation-row span {
+
+    color: #94a3b8;
+
+}
+
+
+.calculation-row strong {
+
+    color: #e5e7eb;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .gauge-container {
+
+        flex-direction: column;
+
+        gap: 30px;
+
+    }
+
+
+    .breaker-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
